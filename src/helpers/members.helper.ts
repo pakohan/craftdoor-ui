@@ -1,9 +1,13 @@
 import axios from "@/axios";
-import { Member } from "@/interfaces/api";
+import { Member, MemberRole } from "@/interfaces/api";
 
 const MemberHelper = {
   async create(t: Member): Promise<Member> {
     const url = `${CONFIG.API_ENDPOINT}/members`;
+    return await axios.post(url, t);
+  },
+  async addRole(t: MemberRole): Promise<any> {
+    const url = `${CONFIG.API_ENDPOINT}/members/${t.member_id}/roles/${t.role_id}`;
     return await axios.post(url, t);
   },
   async list(): Promise<Member[]> {

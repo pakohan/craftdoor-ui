@@ -27,13 +27,13 @@ export default class About extends Vue {
   }
 
   async initCard() {
-    await axios.post(`${CONFIG.API_ENDPOINT}/init`);
+    await axios.post(`${CONFIG.API_ENDPOINT}/keys/register`);
   }
 
   async request() {
     let timeout = 1000;
     try {
-      await axios.get(`${CONFIG.API_ENDPOINT}/state`, {
+      this.resp = await axios.get(`${CONFIG.API_ENDPOINT}/state`, {
         params: {
           id: this.resp.id
         }

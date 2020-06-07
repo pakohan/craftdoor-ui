@@ -4,7 +4,7 @@
     <CreateForm @submit="submitMember" />
     <ul>
       <li v-for="member in members" :key="member.id">
-        {{ member.id }}: {{ member.name }}
+        <b-button tag="a" @click="editMember(member)">{{ member.id }}: {{ member.name }}</b-button>
         <b-button @click="deleteMember(member.id)">Delete</b-button>
       </li>
     </ul>
@@ -13,7 +13,8 @@
     <CreateForm @submit="submitDoor" />
     <ul>
       <li v-for="door in doors" :key="door.id">
-        {{ door.id }}: {{ door.name }} <b-button @click="deleteDoor(door.id)">Delete</b-button>
+        <b-button tag="a" @click="editDoor(door)">{{ door.id }}: {{ door.name }}</b-button>
+        <b-button @click="deleteDoor(door.id)">Delete</b-button>
       </li>
     </ul>
     <hr />
@@ -21,7 +22,8 @@
     <CreateForm @submit="submitRole" />
     <ul>
       <li v-for="role in roles" :key="role.id">
-        {{ role.id }}: {{ role.name }} <b-button @click="deleteRole(role.id)">Delete</b-button>
+        {{ role.id }}: {{ role.name }}
+        <b-button @click="deleteRole(role.id)">Delete</b-button>
       </li>
     </ul>
   </div>
@@ -34,6 +36,8 @@ import CreateForm from "@/components/CreateForm.vue";
 import DoorHelper from "@/helpers/doors.helper";
 import MemberHelper from "@/helpers/members.helper";
 import RoleHelper from "@/helpers/roles.helper";
+import MemberEditor from "../components/MemberEditor.vue";
+import DoorEditor from "../components/DoorEditor.vue";
 
 @Component({
   components: { CreateForm }
@@ -71,6 +75,22 @@ export default class Home extends Vue {
   async deleteRole(id: number) {
     await RoleHelper.delete(id);
     this.load();
+  }
+
+  editMember(member: Member) {
+    this.$buefy.modal.open({
+      component: MemberEditor,
+      props: { member },
+      parent: this
+    });
+  }
+
+  editDoor(door: Door) {
+    this.$buefy.modal.open({
+      component: DoorEditor,
+      props: { door },
+      parent: this
+    });
   }
 
   async load() {
